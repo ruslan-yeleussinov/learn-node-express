@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Frontend-Backend Test</title>
+</head>
+<body>
+  <h1>Send a Message to the Server</h1>
+  <input type="text" id="messageInput" placeholder="Enter your message" />
+  <button onclick="sendMessage()">Send</button>
+
+  <p id="responseText"></p>
+
+  <script>
+    // Declare an asynchronous function to send the message to the server
+    async function sendMessage() {
+      // Get the value from the input field by its ID
+      const text = document.getElementById('messageInput').value;
+  
+      // Send a POST request to the backend at /message
+      const response = await fetch('http://localhost:3000/message', {
+        method: 'POST', // Request type — POST (we're sending data)
+        headers: {
+          'Content-Type': 'application/json' // Specify that we're sending JSON
+        },
+        body: JSON.stringify({ text }) // Convert the object to a JSON string
+      });
+  
+      // Parse the server response back to a JavaScript object
+      const data = await response.json();
+  
+      // Display the result (success or error) in the element with ID responseText
+      document.getElementById('responseText').innerText = data.message || data.error;
+    }
+  </script>
+</body>
+</html>

@@ -29,27 +29,23 @@ app.post('/message', async (req, res) => {
 
   const newMessage = {
     text,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toLocaleString()
   };
 
   const filePath = path.join(__dirname, 'messages.json');
 
   try {
-    // Check: does the file exist?
     let messages = [];
 
     try {
       const fileData = await fs.readFile(filePath, 'utf-8');
       messages = JSON.parse(fileData);
     } catch (err) {
-      // If there is no file or there is a reading error, we will start with an empty array
       messages = [];
     }
 
-    // Add a new message
     messages.push(newMessage);
 
-    // Overwrite the file
     await fs.writeFile(filePath, JSON.stringify(messages, null, 2), 'utf-8');
 
     console.log(`Message saved: ${text}`);
@@ -60,7 +56,6 @@ app.post('/message', async (req, res) => {
   }
 });
 
-// Starting the server
 app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);
 });

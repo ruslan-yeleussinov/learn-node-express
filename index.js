@@ -56,6 +56,19 @@ app.post('/message', async (req, res) => {
   }
 });
 
+app.delete('/messages', async (req, res) => {
+  const filePath = path.join(__dirname, 'messages.json');
+
+  try {
+    await fs.writeFile(filePath, '[]', 'utf-8');
+    console.log('All messages deleted.');
+    res.json({ message: 'All messages deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting messages:', error);
+    res.status(500).json({ error: 'Server error deleting messages' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);
 });

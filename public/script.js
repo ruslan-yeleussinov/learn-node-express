@@ -1,3 +1,6 @@
+const sendButton = document.getElementById('send-msg-btn');
+sendButton.addEventListener('click', sendMessage);
+
 async function sendMessage() {
   const text = document.getElementById('messageInput').value; 
 
@@ -15,13 +18,23 @@ async function sendMessage() {
     } 
 
     const data = await response.json();
-    document.getElementById('responseText').innerText = data.message || data.error;
+
+    if (data.message) {
+      typeWriterEffect(data.message, 'responseText');
+    } else if (data.error) {
+      typeWriterEffect(data.error, 'responseText');
+    }    
+
+    messageInput.value = '';
 
   } catch (error) {
     console.error("Error sending message:", error);
-    document.getElementById('responseText').innerText = "Failed to send message";
+    typeWriterEffect("Failed to send message", 'responseText');
   }
 }
+
+const getMessagesButton = document.getElementById('get-msgs-btn');
+getMessagesButton.addEventListener('click', getMessages);
 
 async function getMessages() {
   try {
@@ -41,3 +54,51 @@ async function getMessages() {
     document.getElementById('responseText').innerText = "Error loading messages";
   }
 }
+
+const deleteButton = document.getElementById('delete-msgs-btn');
+deleteButton.addEventListener('click', deleteMessages);
+
+async function deleteMessages() {
+  try {
+    const response = await fetch('http://localhost:3000/messages', {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    typeWriterEffect(data.message, 'responseText');
+    document.getElementById('messagesList').innerHTML = '';
+  } catch (error) {
+    console.error("Error deleting messages:", error);
+    typeWriterEffect("Failed to delete messages", 'responseText');
+  }
+}
+
+const messageInput = document.getElementById('messageInput');
+messageInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendMessage();
+    messageInput.value = '';
+  }
+});
+
+function typeWriterEffect(text, elementId, speed = 40) {
+  const element = document.getElementById(elementId);
+  element.innerHTML = '';
+  let i = 0;
+
+  function type() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+
+  type();
+}
+

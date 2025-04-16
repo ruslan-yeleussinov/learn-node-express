@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background-color: #f4f4f4;
+  color: #242323;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+#messageInput {
+  display: block;
+  width: 300px;
+  padding: 10px;
+  margin: 0 auto;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#send-msg-btn,
+#get-msgs-btn,
+#delete-msgs-btn {
+  background-color: #3d3c3c;;
+  color: #f4f4f4;
+  display: block;
+  width: 300px;
+  padding: 10px;
+  margin: 10px auto;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+#send-msg-btn:hover,
+#get-msgs-btn:hover,
+#delete-msgs-btn:hover {
+  background-color: #5a5a5a;
+}
+
+#responseText {
+  text-align: center;
+  font-size: 20px;
+}
+
+#messagesList {
+  padding: 0;
+  width: 300px;
+  margin: 0 auto;
+  width: 300px;
+  font-size: 16px;
+}
+
+#messagesList li {
+  list-style: none;
+  padding: 8px;
+  margin-bottom: 6px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+

@@ -1,16 +1,18 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
-
-app.use(express.json());
-app.use(express.static('public'));
-
+const PORT = process.env.PORT || 3000;
 const fs = require('fs/promises');
 const path = require('path');
 
-app.get('/messages', async (req, res) => {
-  const filePath = path.join(__dirname, 'messages.json');
+// Middlewares
+app.use(express.json());
+app.use(express.static('public'));
 
+// Path to file with messages
+const filePath = path.join(__dirname, 'messages.json');
+
+// GET /messages — get all message
+app.get('/messages', async (req, res) => {
   try {
     const fileData = await fs.readFile(filePath, 'utf-8');
     const messages = JSON.parse(fileData);
@@ -20,6 +22,7 @@ app.get('/messages', async (req, res) => {
   }
 });
 
+// POST /message — save new message
 app.post('/message', async (req, res) => {
   const { text } = req.body;
 
@@ -31,8 +34,6 @@ app.post('/message', async (req, res) => {
     text,
     timestamp: new Date().toLocaleString()
   };
-
-  const filePath = path.join(__dirname, 'messages.json');
 
   try {
     let messages = [];
@@ -56,9 +57,8 @@ app.post('/message', async (req, res) => {
   }
 });
 
+// DELETE /messages — delete all messages
 app.delete('/messages', async (req, res) => {
-  const filePath = path.join(__dirname, 'messages.json');
-
   try {
     await fs.writeFile(filePath, '[]', 'utf-8');
     console.log('All messages deleted.');

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -74,3 +75,20 @@ app.delete('/messages', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);
 });
+
+const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+client.connect()
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.error("Database connection error:", err.stack);
+  });

@@ -5,7 +5,7 @@ async function sendMessage() {
   const text = document.getElementById('messageInput').value; 
 
   try {
-    const response = await fetch('http://localhost:3000/message', {
+    const response = await fetch('https://learn-node-express-oniv.onrender.com/message', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ getMessagesButton.addEventListener('click', getMessages);
 
 async function getMessages() {
   try {
-    const response = await fetch('http://localhost:3000/messages');
+    const response = await fetch('https://learn-node-express-oniv.onrender.com/messages');
     const messages = await response.json();
     
     const list = document.getElementById('messagesList');
@@ -60,7 +60,7 @@ deleteButton.addEventListener('click', deleteMessages);
 
 async function deleteMessages() {
   try {
-    const response = await fetch('http://localhost:3000/messages', {
+    const response = await fetch('https://learn-node-express-oniv.onrender.com/messages', {
       method: 'DELETE'
     });
 
